@@ -22,6 +22,8 @@ Cumulatively: of the 15 domains catalogued below, **6 are live with imitation co
 
 ### `e-touristvisaindia.com`
 
+![Screenshot of e-touristvisaindia.com landing page](/india-fake-visa-site-audit/screenshots/e-touristvisaindia.com.jpg)
+
 - **Status**: live, but the landing page is a **fingerprinting redirector**, not a visa-application page
 - **Hosting / CDN**: Apache, no CDN; name servers `*.aboveDomains.com` (a GoDaddy parking infrastructure that operators sometimes leave on live sites)
 - **Stack**: 32-line hand-written HTML that loads `FingerprintJS` ([iife.min.js](https://fingerprint.com/) — a commercial visitor-identification library) and a 300-millisecond `setTimeout` that redirects to `http://e-touristvisaindia.com/?tr_uuid=<uuid>&fp=<visitorId>` either way — with the visitor's fingerprint hash appended if FingerprintJS resolved, or with `fp=-7` (`-3` / `-5` for `<noscript>`) if it didn't
@@ -32,6 +34,8 @@ Cumulatively: of the 15 domains catalogued below, **6 are live with imitation co
 - **Notable finding**: a public-facing visa site's landing page does not need to fingerprint visitors before letting them in. The presence of FingerprintJS at all — and the per-visit `tr_uuid` UUID minted into the query string — is the signature of an affiliate-tracking funnel, not a legitimate informational site.
 
 ### `e-visaindia.com`
+
+![Screenshot of e-visaindia.com landing page](/india-fake-visa-site-audit/screenshots/e-visaindia.com.jpg)
 
 - **Status**: live, 55 KB landing page with a full visa-application UI
 - **Hosting / CDN**: Apache, no CDN; jQuery 3.4.0 + Bootstrap 3.4.0 loaded from `ajax.googleapis.com` and `maxcdn.bootstrapcdn.com`
@@ -46,10 +50,14 @@ Cumulatively: of the 15 domains catalogued below, **6 are live with imitation co
 
 ### `evisaindia.com`
 
+![Screenshot of evisaindia.com — domain-marketplace listing](/india-fake-visa-site-audit/screenshots/evisaindia.com.jpg)
+
 - **Status**: parked / for sale
 - The domain currently 302-redirects to `https://perfectdomain.com/domain/evisaindia.com`, a domain-marketplace listing. The visible page is a sales pitch ("Evisaindia.com Domain Name"), not a visa site. Registered via GoDaddy and on PerfectDomain's name servers. Registered 2023-01-04 (re-registered after a lapse).
 
 ### `evisaindia.org`
+
+![Screenshot of evisaindia.org — currently serving an ad-affiliate redirect target](/india-fake-visa-site-audit/screenshots/evisaindia.org.jpg)
 
 - **Status**: repurposed / ad-affiliate redirect
 - 302-redirects through a chain ending at `https://celynnec.com/match-…/feed` — an affiliate-redirect URL on a Cowboy / Erlang-served domain. No visa content. UdomainName.com LLC registrar; registered 2023-09-23 to "Jan Everno".
@@ -61,12 +69,16 @@ Cumulatively: of the 15 domains catalogued below, **6 are live with imitation co
 
 ### `online-visaindia.com`
 
+![Screenshot of digital-arrival-card.com, the current redirect target of online-visaindia.com](/india-fake-visa-site-audit/screenshots/online-visaindia.com.jpg)
+
 - **Status**: repurposed — the domain itself was registered fresh on 2025-12-29 and now 301-redirects to **`digital-arrival-card.com`**, a French-language "global Digital Arrival Card" portal
 - **Hosting / CDN**: nginx 1.24 → Apache 2.4 after the redirect; no CDN
 - **WHOIS**: Internet Domain Service BS Corp registrar, Whois Privacy Corp shield (Bahamas), registered 2025-12-29 — same day the redirect target appears to have started accepting traffic
 - **Notable finding**: the domain was recently re-acquired and pivoted to a different "official-sounding" travel-document funnel (Digital Arrival Card) instead of being used for India e-Visa imitation directly. The same playbook, a different country's paperwork.
 
 ### `visatoindia.org`
+
+![Screenshot of visatoindia.org landing page](/india-fake-visa-site-audit/screenshots/visatoindia.org.jpg)
 
 - **Status**: live, 48 KB landing page with a polished visa-application UI
 - **Hosting / CDN**: Cloudflare (`cf-ray` returned), origin nginx
@@ -85,12 +97,16 @@ Cumulatively: of the 15 domains catalogued below, **6 are live with imitation co
 
 ### `evisa-india-online.com`
 
+![Screenshot of evisa-india-online.com — Cloudflare 520 error page](/india-fake-visa-site-audit/screenshots/evisa-india-online.com.jpg)
+
 - **Status**: live registration, but the Cloudflare origin returns **HTTP 520** ("Web server is returning an unknown error") — the proxy is up, the origin behind it is not
 - **Hosting / CDN**: Cloudflare (`cf-ray`, `server: cloudflare`)
 - **WHOIS**: **Gname 194 Inc** registrar (a low-cost reseller often used for short-lived operations), name servers `hera.ns.cloudflare.com` / `vicky.ns.cloudflare.com`, registered 2025-05-29 — fresh
 - **Notable finding**: registered fresh in mid-2025 on a low-cost registrar, behind Cloudflare, with no working origin. This is the shape of a domain that was stood up, served content for a while, and either got pulled or had its origin server retired. The Cloudflare proxy in front means a new origin can be wired up without anyone outside the operator noticing.
 
 ### `globalvisacorp.com` (`/destination/india`)
+
+![Screenshot of globalvisacorp.com /destination/india landing page](/india-fake-visa-site-audit/screenshots/globalvisacorp.com.jpg)
 
 - **Status**: live, **461 KB** rendered HTML, the most fully-built site in this catalog
 - **Hosting / CDN**: Cloudflare, origin runs Next.js (`x-powered-by: Next.js`, preload links to `/_next/static/media/...woff2`)
@@ -107,6 +123,8 @@ Cumulatively: of the 15 domains catalogued below, **6 are live with imitation co
 
 ### `indianvisaonline.org`
 
+![Screenshot of indianvisaonline.org — JS redirector page mid-redirect](/india-fake-visa-site-audit/screenshots/indianvisaonline.org.jpg)
+
 - **Status**: live but **the landing is a 481-byte JS redirector**, not a visa page
 - The full body is `window.location.replace('http://indianvisaonline.org/?ch=1&js=<JWT>&sid=<uuid>')` — a JWT-signed query string that presumably gates real content behind successful redirect. With JavaScript disabled, the page is empty. Origin nginx, GoDaddy registrar, custom name servers `*.commonmx.com`, registered 2014-10-30. The shape (JWT in query string, per-visit `sid`) is again affiliate-tracking infrastructure — what a marketing funnel looks like, not a visa portal.
 
@@ -116,6 +134,8 @@ Cumulatively: of the 15 domains catalogued below, **6 are live with imitation co
 - WHOIS: ASIA ETRAVEL LIMITED via Wild West Domains, same Cloudflare nameserver pair (`kara.ns.cloudflare.com` / `anirban.ns.cloudflare.com`) as `indiavisa.org.in` and `globalvisacorp.com` — the shared-account fingerprint noted above. Registered 2015-03-29.
 
 ### `indianonlinevisas.org`
+
+![Screenshot of indianonlinevisas.org landing page](/india-fake-visa-site-audit/screenshots/indianonlinevisas.org.jpg)
 
 - **Status**: live, 92 KB landing page with the most production-grade frontend in this catalog
 - **Hosting / CDN**: **AWS CloudFront** in front of nginx (`x-cache: Miss from cloudfront`, `via: 1.1 ...cloudfront.net`); name servers are AWS Route 53 (`*.awsdns-…`)
@@ -132,6 +152,8 @@ Cumulatively: of the 15 domains catalogued below, **6 are live with imitation co
 - WHOIS: **eTourist Services (OPC) Pvt.Ltd** via GoDaddy, name servers `*.rohininfotech.org`. Registered 2017-11-26. Different operator footprint from the ASIA ETRAVEL cluster.
 
 ### `indianvisaonline.uk.com`
+
+![Screenshot of indianvisaonline.uk.com — currently redirecting to a Thai gambling site](/india-fake-visa-site-audit/screenshots/indianvisaonline.uk.com.jpg)
 
 - **Status**: repurposed → currently serves **a Thai-language gambling site**
 - The domain 301-redirects through `https://789betak.com/` → `https://airductcleaning.us.org/` (a WordPress install with `<meta name="generator" content="WordPress 7.0">`) → final title `789BET - ลิงก์เข้าสู่ระบบอย่างเป็นทางการของ 789bet.com ปี 2026`. The `.uk.com` suffix is a CentralNic public-suffix registration, not an official UK domain. WHOIS for the registry was unavailable; whatever the domain originally hosted, it now serves no India-visa content of any kind.
