@@ -32,6 +32,10 @@ export default defineConfig({
 							label: 'Passport Seva (passportindia.gov.in)',
 							slug: 'audits/passport-seva',
 						},
+						{
+							label: 'Indian Visa Online (indianvisaonline.gov.in)',
+							slug: 'audits/indian-visa-online',
+						},
 					],
 				},
 				{
