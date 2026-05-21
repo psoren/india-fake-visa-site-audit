@@ -1,0 +1,38 @@
+---
+title: Indian Gov Tech Audit
+description: A teardown catalog of Indian government websites — what is actually under the hood.
+template: splash
+hero:
+  tagline: Section-by-section technical teardowns of the government websites Indian citizens are required to use.
+  actions:
+    - text: Read the Passport Seva audit
+      link: /indian-gov-tech-audit/audits/passport-seva/
+      icon: right-arrow
+    - text: View on GitHub
+      link: https://github.com/psoren/indian-gov-tech-audit
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Why this exists
+
+Government services digitize at the speed of procurement, not at the speed of the web. The result is a layer of public-facing software that the average citizen has no choice but to use — to get a passport, a visa, a tax filing, a benefit — and that an outside engineer can usually reverse-engineer from the bundle in an afternoon.
+
+This site is a catalog of those teardowns. Each entry looks at one government property, reads what's actually shipped to the browser, and writes down what's there. The tone aims to be precise and unsparing rather than mocking.
+
+<CardGrid>
+	<Card title="What's audited" icon="document">
+		Public-facing pages of Indian government websites — HTML, JS, CSS, headers, response bodies. No authenticated flows, no scraping behind a login, no submitted personal data.
+	</Card>
+	<Card title="What's reported" icon="magnifier">
+		Architecture choices, dependency hygiene, dead code, leaked configuration, security headers, accessibility, route table sanity.
+	</Card>
+	<Card title="What's not reported" icon="warning">
+		Exploitable credentials are described but not republished verbatim. The site is descriptive, not weaponizable.
+	</Card>
+	<Card title="Scam tracker" icon="error">
+		A separate section catalogs known fake/look-alike sites that impersonate Indian government services and overcharge citizens.
+	</Card>
+</CardGrid>
