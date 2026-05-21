@@ -1,49 +1,48 @@
 ---
 title: Methodology
-description: How each audit on this site is conducted.
+description: How each fake / intermediary visa site on this catalog is inspected.
 ---
 
-Every audit on this site follows the same pattern. The goal is to be reproducible — anyone with a terminal and a browser should be able to re-derive the findings.
+Every entry on this site is derived from the same public-facing inspection. The goal is reproducibility — anyone with a terminal can re-derive the findings from the same `curl`, `whois`, and `openssl` commands.
 
 ## What gets inspected
 
-- **The HTML shell** served at the site's root and at notable sub-routes
-- **Shipped JS and CSS bundles** (dumped via `curl`, inspected via `grep`, never executed locally except in a sandboxed headless browser)
-- **Build artifacts** that the framework's default config leaves published — `asset-manifest.json`, `manifest.json`, source maps if present
-- **Response headers** from each distinct hostname the site uses
-- **Common-path probes** — `robots.txt`, `sitemap.xml`, well-known dotfiles
-- **Sibling origins** referenced by the bundle (API hosts, CDN hosts, embedded sub-apps)
+- **The HTML served at the landing page** — full response body, `<title>`, `<meta>`, headings, disclaimers, commented-out content, embedded JSON config
+- **Response headers** — `Server`, `Via`, `cf-ray`, `x-powered-by`, `Set-Cookie`, redirect chain
+- **WHOIS** — registrar, creation/update dates, registrant organization (or privacy shield), name servers
+- **TLS certificate** — issuer, validity dates, SAN list
+- **External script and asset URLs** — to identify trackers (GA, GTM, Facebook Pixel, Hotjar, Amplitude, Datadog), payment processor JS, fingerprinting libraries
 
 ## What does *not* get inspected
 
-- Anything behind a login
-- Anything that would require submitting personal information, money, or otherwise interacting with the application as a real user
-- Server-side code, internal infrastructure, or anything beyond what the site itself volunteers
+- **No form submissions.** No fake email, no fake name, no upload of any document. The checkout flow on these sites is exactly what we are trying to *not* feed.
+- **No clicks past the landing.** "Apply Now" buttons are not clicked in a real browser. If a button's `formaction` is visible in the markup, that is the entirety of what is recorded.
+- **No attempt to bypass UA-gating or fingerprint-driven cloaking.** If a page serves different content to a bot vs a browser, that is noted but not circumvented.
+- **No authenticated flows, no checkout, no payment.** Same rule as the gov-site audits this catalog originally split off from — even stricter, because these are the sites we are warning about.
 
 ## What is reported
 
-Per audit, a section-by-section walkthrough covering:
+Per site, a short structured entry:
 
-1. The HTML shell and SSR posture
-2. Build artifacts left published
-3. Framework inventory and versions
-4. JS bundle: hard-coded URLs, console statements, browser sniffing, validation patterns, leaked secrets
-5. Route table sanity (duplicates, casing, typos, dead routes)
-6. CSS bundle health (size, specificity wars, dead frameworks)
-7. Sub-applications and the frameworks they use
-8. Server / WAF / CDN behavior
-9. Security headers and CSP analysis
-10. A "what would help most" punch list
+- **Status** — live / parked / dead / redirects to off-topic
+- **Hosting / CDN** — Cloudflare, AWS, GoDaddy parking, etc., from response headers
+- **Stack** — WordPress, Next.js, hand-written PHP, etc., from generator meta, script paths, framework signatures
+- **Brand-imitation evidence** — copied language from `indianvisaonline.gov.in`, "Government of India" claims, lifted iconography, commented-out disclaimers
+- **Tracking** — GTM / GA IDs, FB Pixel, Hotjar, fingerprinting libraries — described, not republished as fully clickable links
+- **Payment processor (if visible)** — Stripe, Razorpay, PayU, etc., from script tags or form `action` attributes
+- **Pricing markup visible on the public page** — the service-fee number the site discloses *before* a user begins a checkout
+- **WHOIS** — registrar, registration date, privacy shield
+- **Notable finding** — one sentence on the most damning thing the markup reveals
 
-## What is *not* reported as-is
+## Tone
 
-If an exploitable secret is found in a bundle (an unrestricted API key, a credential, a token), it is **described** but not **reproduced**. A key may appear in the audit as `AIzaSyDa9og…` — enough to identify the finding for the maintainer, not enough to enable abuse by a reader.
+Precise and unsparing, not mocking. The point is to document what each site actually serves, not to perform indignation. The Indian government has already done the moral framing on the advisories pages — this catalog adds the technical evidence.
+
+## On secrets and redaction
+
+If a publishable secret-shape token (`pk_live_…`, `AIza…`, `AKIA…`, etc.) appears in a bundle, it is *described* but not republished verbatim. Pre-published public Stripe publishable keys are safe to show; anything secret-shape is redacted to the first 8 characters.
 
 This is for two reasons:
 
 1. The leak is already public on the live site; we should not amplify it.
-2. Automated secret-scanners (GitGuardian, TruffleHog, etc.) will fire on the verbatim string in our public repo and create noise for everyone involved.
-
-## Tone
-
-The writeups aim to be precise and unsparing without being mocking. The intended reader is a future maintainer of the site, not a Twitter audience. The "what would help most" list at the end of each audit is the actual point — every section before it exists to justify those items.
+2. Automated secret-scanners (GitGuardian, TruffleHog) will fire on the verbatim string in our public repo and create noise for everyone involved.

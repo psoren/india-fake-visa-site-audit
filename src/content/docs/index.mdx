@@ -1,15 +1,15 @@
 ---
-title: Indian Gov Tech Audit
-description: A teardown catalog of Indian government websites — what is actually under the hood.
+title: India Fake Visa Site Audit
+description: A catalog and technical teardown of look-alike websites that impersonate India's official e-Visa portal.
 template: splash
 hero:
-  tagline: Section-by-section technical teardowns of the government websites Indian citizens are required to use.
+  tagline: A catalog of the look-alike sites that impersonate India's official e-Visa portal — what they claim, what their markup actually says, and how to spot them.
   actions:
-    - text: Read the Passport Seva audit
-      link: /indian-gov-tech-audit/audits/passport-seva/
+    - text: Read the technical teardown
+      link: /india-fake-visa-site-audit/scams/fake-visa-sites-teardown/
       icon: right-arrow
     - text: View on GitHub
-      link: https://github.com/psoren/indian-gov-tech-audit
+      link: https://github.com/psoren/india-fake-visa-site-audit
       icon: external
       variant: minimal
 ---
@@ -18,21 +18,21 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
 
 ## Why this exists
 
-Government services digitize at the speed of procurement, not at the speed of the web. The result is a layer of public-facing software that the average citizen has no choice but to use — to get a passport, a visa, a tax filing, a benefit — and that an outside engineer can usually reverse-engineer from the bundle in an afternoon.
+The official Indian e-Visa portal lives at **`https://indianvisaonline.gov.in/evisa/`**. Everything else — `e-visaindia.com`, `evisaindia.org`, `visatoindia.org`, and roughly a dozen domains named in Government of India advisories — is either a third-party intermediary marking up a $25–$90 service to $150+, or an outright phishing operation.
 
-This site is a catalog of those teardowns. Each entry looks at one government property, reads what's actually shipped to the browser, and writes down what's there. The tone aims to be precise and unsparing rather than mocking.
+This site catalogs those domains and reads their public-facing markup to document what they actually are: the hosting they run on, the trackers they embed, the brand-imitation language in the HTML, the disclaimers commented out in the source.
 
 <CardGrid>
 	<Card title="What's audited" icon="document">
-		Public-facing pages of Indian government websites — HTML, JS, CSS, headers, response bodies. No authenticated flows, no scraping behind a login, no submitted personal data.
+		Public landing pages of fake / intermediary India e-Visa sites — HTML, headers, WHOIS, certificate issuer. No form submissions, no checkout flow, no probing.
 	</Card>
 	<Card title="What's reported" icon="magnifier">
-		Architecture choices, dependency hygiene, dead code, leaked configuration, security headers, accessibility, route table sanity.
+		Stack, hosting/CDN, trackers and analytics IDs, payment-processor evidence, visible pricing, brand-imitation language, WHOIS registrar and date.
 	</Card>
 	<Card title="What's not reported" icon="warning">
-		Exploitable credentials are described but not republished verbatim. The site is descriptive, not weaponizable.
+		No interaction past the public landing. No form submissions, no checkout, no attempt to bypass UA-gating. Findings are based on what the public page volunteers.
 	</Card>
-	<Card title="Scam tracker" icon="error">
-		A separate section catalogs known fake/look-alike sites that impersonate Indian government services and overcharge citizens.
+	<Card title="Why it matters" icon="error">
+		The Indian government does not charge $150 for a $25 e-Visa. The lock icon means nothing. WHOIS privacy is the norm. Identifying a fake from outside the checkout flow is the whole point.
 	</Card>
 </CardGrid>
