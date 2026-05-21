@@ -25,6 +25,7 @@ Cumulatively: of the 15 domains catalogued below, **6 are live with imitation co
 ![Screenshot of e-touristvisaindia.com landing page](/india-fake-visa-site-audit/screenshots/e-touristvisaindia.com.jpg)
 
 - **Status**: live, but the landing page is a **fingerprinting redirector**, not a visa-application page
+- **What it claims to offer**: nothing visible on the landing — `<title>` is just the domain name, body is empty. Whatever pitch exists lives behind the post-fingerprint redirect, not where a normal visitor or web crawler can see it
 - **Hosting / CDN**: Apache, no CDN; name servers `*.aboveDomains.com` (a GoDaddy parking infrastructure that operators sometimes leave on live sites)
 - **Stack**: 32-line hand-written HTML that loads `FingerprintJS` ([iife.min.js](https://fingerprint.com/) — a commercial visitor-identification library) and a 300-millisecond `setTimeout` that redirects to `http://e-touristvisaindia.com/?tr_uuid=<uuid>&fp=<visitorId>` either way — with the visitor's fingerprint hash appended if FingerprintJS resolved, or with `fp=-7` (`-3` / `-5` for `<noscript>`) if it didn't
 - **Brand-imitation evidence**: none on the landing — the only visible content is `<title>e-touristvisaindia.com</title>`. Imitation, if any, lives behind the post-fingerprint redirect
@@ -38,6 +39,7 @@ Cumulatively: of the 15 domains catalogued below, **6 are live with imitation co
 ![Screenshot of e-visaindia.com landing page](/india-fake-visa-site-audit/screenshots/e-visaindia.com.jpg)
 
 - **Status**: live, 55 KB landing page with a full visa-application UI
+- **What it claims to offer**: a full-service Indian e-Visa application portal — nav lists "eTourist Visa", "eBusiness Visa", "eMedical Visa", "Transit Visa", "Eligibility", "Make Payment". Three hero CTAs: "Apply for Indian Visa Online", "Amend or Complete Partially Filled Form", "Make Payment for Completed Application Form". Pitch reads as a fast/24-hour/hassle-free filing service
 - **Hosting / CDN**: Apache, no CDN; jQuery 3.4.0 + Bootstrap 3.4.0 loaded from `ajax.googleapis.com` and `maxcdn.bootstrapcdn.com`
 - **Stack**: hand-written PHP-style multi-page site, `<meta name="generator" content="https://www.e-visaindia.com">` (so the site lists itself as its own generator). Bootstrap **3** is end-of-life as of mid-2019
 - **Brand-imitation evidence**: page text reads "associated with Government of India" in body copy. **The non-affiliation disclaimer is in the HTML but commented out**: `<!--<p class="">*Disclaimer:The website is not affiliated under the Government of India.</p>-->`. The visible disclaimer below is softer ("developed by eVisa Service Company Limited, is the website to provide full services for online Visa to India") and omits the non-affiliation statement
@@ -72,6 +74,7 @@ Cumulatively: of the 15 domains catalogued below, **6 are live with imitation co
 ![Screenshot of digital-arrival-card.com, the current redirect target of online-visaindia.com](/india-fake-visa-site-audit/screenshots/online-visaindia.com.jpg)
 
 - **Status**: repurposed — the domain itself was registered fresh on 2025-12-29 and now 301-redirects to **`digital-arrival-card.com`**, a French-language "global Digital Arrival Card" portal
+- **What it claims to offer (current redirect target)**: "Le portail mondial des Digital Arrival Card" — a French-language clearinghouse for the various countries' digital arrival-card forms, with "Informations et Applications en français" and "support 24/7". It is the same intermediary playbook applied to a different government-paperwork product. The original `online-visaindia.com` India e-Visa pitch is gone — only the redirect target's pitch remains
 - **Hosting / CDN**: nginx 1.24 → Apache 2.4 after the redirect; no CDN
 - **WHOIS**: Internet Domain Service BS Corp registrar, Whois Privacy Corp shield (Bahamas), registered 2025-12-29 — same day the redirect target appears to have started accepting traffic
 - **Notable finding**: the domain was recently re-acquired and pivoted to a different "official-sounding" travel-document funnel (Digital Arrival Card) instead of being used for India e-Visa imitation directly. The same playbook, a different country's paperwork.
@@ -81,6 +84,7 @@ Cumulatively: of the 15 domains catalogued below, **6 are live with imitation co
 ![Screenshot of visatoindia.org landing page](/india-fake-visa-site-audit/screenshots/visatoindia.org.jpg)
 
 - **Status**: live, 48 KB landing page with a polished visa-application UI
+- **What it claims to offer**: an "easy, hassle-free, secure" Indian e-Tourist Visa filing service. The page walks the visitor through a four-step funnel — "Apply Online → Pay Visa Fee → Receive eTV Email → Travel to India" — and centers the pitch on simplification, broader file-format acceptance ("we accept all formats for the passport/photo upload"), and cross-browser support ("our site is compatible with all internet browsers"). The product is essentially: we will do the official-site application for you, with fewer rejected uploads
 - **Hosting / CDN**: Cloudflare (`cf-ray` returned), origin nginx
 - **Stack**: hand-written with Magento-era artefacts (`<form id="search_mini_form" action="/catalogsearch/result/">` is a Magento 1 marker, and `etafca-kukalayallc1.netdna-ssl.com/skin/frontend/base/default/js/ie6.js` is loaded — a Magento 1 skin path that still references IE 6 compatibility JavaScript)
 - **Brand-imitation evidence**: page body reads "**the Ministry of Home Affairs, Government of India will review the application**" inside an informational `<p>`. Two `<p>` elements lower, the disclaimer reads "We are not owned or affiliated with the government of India. You can obtain the e-visa directly from the Government of India" — the same paragraph that quietly tells the user they could have done this for less
@@ -109,6 +113,7 @@ Cumulatively: of the 15 domains catalogued below, **6 are live with imitation co
 ![Screenshot of globalvisacorp.com /destination/india landing page](/india-fake-visa-site-audit/screenshots/globalvisacorp.com.jpg)
 
 - **Status**: live, **461 KB** rendered HTML, the most fully-built site in this catalog
+- **What it claims to offer**: a multi-destination visa brokerage — India is one of eight or nine destinations exposed in the nav, alongside Sri Lanka eVisa/ETA, Indonesia, Kenya ETA, Korea K-ETA, Saudi Arabia, Qatar, Taiwan. The India page sells "How to Apply for India eVisa" and "How We Support Your India eVisa Application" with the standard 24-hour / priority / expert pitch. Has its own mobile app (banner "Download the App" appears three times on the landing). The product is breadth — one operator handling many countries' travel-document forms
 - **Hosting / CDN**: Cloudflare, origin runs Next.js (`x-powered-by: Next.js`, preload links to `/_next/static/media/...woff2`)
 - **Stack**: Next.js with server-rendered HTML and a large embedded JSON config blob containing the entire site's content (destinations, prices, contact details, disclaimer copy) inlined into the HTML
 - **Brand-imitation evidence**: body text references **`indianvisaonline.gov.in`**, **`Bureau of Immigration`**, and **`Government of India`** as authorities the site relates to. The visible disclaimer states "**This is a privately owned website and is not affiliated with any government authorities**" — clear, but adjacent to language that positions the site as a peer of the official portal
@@ -126,7 +131,8 @@ Cumulatively: of the 15 domains catalogued below, **6 are live with imitation co
 ![Screenshot of indianvisaonline.org — JS redirector page mid-redirect](/india-fake-visa-site-audit/screenshots/indianvisaonline.org.jpg)
 
 - **Status**: live but **the landing is a 481-byte JS redirector**, not a visa page
-- The full body is `window.location.replace('http://indianvisaonline.org/?ch=1&js=<JWT>&sid=<uuid>')` — a JWT-signed query string that presumably gates real content behind successful redirect. With JavaScript disabled, the page is empty. Origin nginx, GoDaddy registrar, custom name servers `*.commonmx.com`, registered 2014-10-30. The shape (JWT in query string, per-visit `sid`) is again affiliate-tracking infrastructure — what a marketing funnel looks like, not a visa portal.
+- **What it claims to offer**: nothing visible on the landing — title is `Loading...`, body is a single inline script doing a `window.location.replace` to a JWT-signed query string. With JavaScript disabled, the page is empty. Whatever the user is actually being sold is gated behind the JS redirect
+- The full body is `window.location.replace('http://indianvisaonline.org/?ch=1&js=<JWT>&sid=<uuid>')` — a JWT-signed query string that presumably gates real content behind successful redirect. Origin nginx, GoDaddy registrar, custom name servers `*.commonmx.com`, registered 2014-10-30. The shape (JWT in query string, per-visit `sid`) is again affiliate-tracking infrastructure — what a marketing funnel looks like, not a visa portal.
 
 ### `indianvisaonline.org.in`
 
@@ -138,6 +144,7 @@ Cumulatively: of the 15 domains catalogued below, **6 are live with imitation co
 ![Screenshot of indianonlinevisas.org landing page](/india-fake-visa-site-audit/screenshots/indianonlinevisas.org.jpg)
 
 - **Status**: live, 92 KB landing page with the most production-grade frontend in this catalog
+- **What it claims to offer**: an Indian e-Visa application service positioned as a premium intermediary — "Apply for your e-Visa India in 3 easy steps", "Advantages of applying for an e-Visa India with us", with expert review and Trustpilot social proof embedded directly in the page. The pitch is convenience plus implied legitimacy: a real-business-shaped frontend, an explicit disclaimer that the user could apply directly with the government for less, and a service fee on top of the government fee in exchange for expert handling
 - **Hosting / CDN**: **AWS CloudFront** in front of nginx (`x-cache: Miss from cloudfront`, `via: 1.1 ...cloudfront.net`); name servers are AWS Route 53 (`*.awsdns-…`)
 - **Stack**: hand-rolled but professionally engineered — Amplitude analytics (`cdn.amplitude.com/libs/amplitude-8.18.4-min.gz.js`), Amplitude experiments (`cdn.eu.amplitude.com/script/...experiment.js`), **Datadog RUM** (`datadoghq-browser-agent.com/datadog-rum-v4.js`), and `crypto-js` 3.1.9 loaded from cdnjs
 - **Brand-imitation evidence**: body text references **`indianvisaonline.gov.in`** by name; the visible disclaimer reads "An application can also be submitted for a lower cost through the Government's web…site" — same pattern as `visatoindia.org`, where the disclaimer itself admits the markup is unnecessary. **Trustpilot widget embedded** (`trustpilot` / `TRUSTPILOT` in the markup) — used to imply legitimacy
